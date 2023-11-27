@@ -1,0 +1,53 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class ShortTermMemoryNoteApp {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Short-Term Memory Note Application");
+            System.out.println("1. Add Note");
+            System.out.println("2. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    addNote();
+                    break;
+                case 2:
+                    System.out.println("Exiting Short-Term Memory Note Application. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.\n");
+            }
+        }
+    }
+
+    private static void addNote() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter your note: ");
+        String content = scanner.nextLine();
+
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter("notes.txt", true))) {
+            writer.println("Timestamp: " + timestamp);
+            writer.println("Content: " + content);
+            writer.println("------------------------");
+            System.out.println("Note added successfully!\n");
+        } catch (IOException e) {
+            System.out.println("Error saving note: " + e.getMessage());
+        }
+    }
+}
